@@ -1,0 +1,23 @@
+--- a/arch/arm/dts/rtd1619b-bleedingedge-emmc.dts	2025-01-03 11:59:58.943700580 +0800
++++ b/arch/arm/dts/rtd1619b-bleedingedge-emmc.dts  2025-01-03 12:02:26.921295536 +0800
+@@ -43,6 +43,7 @@
+
+ &usb_port0 {
+ 	bootph-all;
++  realtek,power-gpio = <&gpio 48 GPIO_ACTIVE_HIGH>;
+ };
+
+ &usb_port0_dwc3 {
+@@ -51,10 +52,12 @@
+
+ &usb_port1_usb2phy {
+ 	bootph-all;
++  status = "disabled";
+ };
+
+ &usb_port1 {
+ 	bootph-all;
++  status = "disabled";
+ };
+
+ &usb_port1_dwc3 {

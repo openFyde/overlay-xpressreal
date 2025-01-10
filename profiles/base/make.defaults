@@ -1,0 +1,7 @@
+USE=""
+USE="${USE} panfrost aic_wifi"
+
+CHROMEOS_DTBS="rtd1619b-teethree-2gb.dtb"
+ARC_VERSION_CODENAME=rvc
+UBOOT_DDR_TYPE="lpddr4"
+LINUX_FIRMWARE="$LINUX_FIRMWARE aic8800d80"

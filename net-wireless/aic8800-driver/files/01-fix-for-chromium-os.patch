@@ -1,0 +1,76 @@
+Index: aic8800/Makefile
+===================================================================
+--- aic8800.orig/Makefile
++++ aic8800/Makefile
+@@ -57,12 +57,12 @@ export CONFIG_SUPPORT_LPM = y
+ endif
+
+ ifeq ($(CONFIG_PLATFORM_UBUNTU), y)
+-KDIR  = /lib/modules/$(shell uname -r)/build
++KDIR  := $(KBUILD_OUTPUT)
+ PWD   = $(shell pwd)
+-KVER = $(shell uname -r)
++KVER := $(shell uname -r)
+ MODDESTDIR = /lib/modules/$(KVER)/kernel/drivers/net/wireless/aic8800
+-ARCH = x86_64
+-CROSS_COMPILE ?=
++ARCH := arm64
++CROSS_COMPILE := aarch64-cros-linux-gnu-
+ endif
+ ###########################################
+
+Index: aic8800/Kconfig
+===================================================================
+--- aic8800.orig/Kconfig
++++ aic8800/Kconfig
+@@ -7,8 +7,8 @@ config AIC_WLAN_SUPPORT
+ config AIC_FW_PATH
+ 	depends on AIC_WLAN_SUPPORT
+ 	string "Firmware & config file path"
+-	default "/vendor/etc/firmware"
+-	#default "/lib/firmware/aic8800_sdio"
++	#default "/vendor/etc/firmware"
++	default "/lib/firmware/aic8800"
+ 	help
+ 	  Path to the firmware & config file.
+
+Index: aic8800/aic8800_bsp/Makefile
+===================================================================
+--- aic8800.orig/aic8800_bsp/Makefile
++++ aic8800/aic8800_bsp/Makefile
+@@ -1,7 +1,7 @@
+ CONFIG_SDIO_SUPPORT := y
+ CONFIG_SDIO_PWRCTRL := y
+-CONFIG_AIC_FW_PATH = "/vendor/etc/firmware"
+-#CONFIG_AIC_FW_PATH = "/lib/firmware/aic8800"
++#CONFIG_AIC_FW_PATH = "/vendor/etc/firmware"
++CONFIG_AIC_FW_PATH = "/lib/firmware/aic8800"
+ export CONFIG_AIC_FW_PATH
+ ccflags-y += -DCONFIG_AIC_FW_PATH=\"$(CONFIG_AIC_FW_PATH)\"
+
+Index: aic8800/aic8800_bsp/aic_bsp_main.c
+===================================================================
+--- aic8800.orig/aic8800_bsp/aic_bsp_main.c
++++ aic8800/aic8800_bsp/aic_bsp_main.c
+@@ -15,7 +15,7 @@
+ #define DRV_AUTHOR            "AICSemi"
+ #define DRV_VERS_MOD          "1.0"
+
+-int aicwf_dbg_level_bsp = LOGERROR|LOGINFO|LOGDEBUG|LOGTRACE;
++int aicwf_dbg_level_bsp = LOGERROR;
+
+ static struct platform_device *aicbsp_pdev;
+
+Index: aic8800/aic8800_fdrv/rwnx_main.c
+===================================================================
+--- aic8800.orig/aic8800_fdrv/rwnx_main.c
++++ aic8800/aic8800_fdrv/rwnx_main.c
+@@ -510,7 +510,7 @@ static const int rwnx_hwq2uapsd[NL80211_
+
+
+ extern uint8_t scanning;
+-int aicwf_dbg_level = LOGERROR|LOGINFO|LOGDEBUG|LOGTRACE;
++int aicwf_dbg_level = LOGERROR;
+ module_param(aicwf_dbg_level, int, 0660);
+ int testmode = 0;
+ char aic_fw_path[200];
