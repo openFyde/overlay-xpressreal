@@ -14,7 +14,7 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree-2gb.dts
 +
 +/ {
 +  compatible = "realtek,bleeding-edge", "realtek,rtd1619b";
-+  model = "Realtek Bleeding Edge T3(2GB)";
++  model = "Realtek Bleeding Edge XpressReal(2GB)";
 +
 +  memory@40000 {
 +    device_type = "memory";
@@ -25,7 +25,7 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 ===================================================================
 --- /dev/null
 +++ kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,140 @@
+@@ -0,0 +1,144 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -166,6 +166,10 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 +    power-source = <0>;
 +  };
 +};
++
++&sd {
++  disable-wp;
++};
 Index: kernel-5_15/arch/arm64/boot/dts/realtek/Makefile
 ===================================================================
 --- kernel-5_15.orig/arch/arm64/boot/dts/realtek/Makefile
@@ -193,7 +197,7 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree-4gb.dts
 +
 +/ {
 +  compatible = "realtek,bleeding-edge", "realtek,rtd1619b";
-+  model = "Realtek Bleeding Edge T3(4GB)";
++  model = "Realtek Bleeding Edge XpressReal(4GB)";
 +
 +  memory@40000 {
 +    device_type = "memory";
