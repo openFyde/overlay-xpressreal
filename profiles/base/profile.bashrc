@@ -2,7 +2,7 @@
 teethree_stack_bashrc() {
   local cfg
 
-  cfgd="/mnt/host/source/src/overlays/overlay-teethree/${CATEGORY}/${PN}"
+  cfgd="/mnt/host/source/src/overlays/overlay-xpressreal/${CATEGORY}/${PN}"
   for cfg in ${PN} ${P} ${PF} ; do
     cfg="${cfgd}/${cfg}.bashrc"
     [[ -f ${cfg} ]] && . "${cfg}"
