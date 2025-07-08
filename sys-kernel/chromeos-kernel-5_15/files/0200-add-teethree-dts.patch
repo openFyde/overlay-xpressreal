@@ -25,7 +25,7 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 ===================================================================
 --- /dev/null
 +++ kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,144 @@
+@@ -0,0 +1,139 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -71,11 +71,6 @@ Index: kernel-5_15/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 +};
 +
 +&dsi {
-+  status = "disabled";
-+};
-+
-+&dsi_panel {
-+  compatible = "innolux,n080jce-g41";
 +  status = "disabled";
 +};
 +
