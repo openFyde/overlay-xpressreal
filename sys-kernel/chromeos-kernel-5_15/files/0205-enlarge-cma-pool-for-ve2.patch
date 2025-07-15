@@ -1,0 +1,46 @@
+--- a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
+@@ -17,7 +17,8 @@
+ };
+ 
+ &display_subsystem {
+-	ports = <&vo0_out>;
++  memory-region = <&cma_reserved_1>;
++  ports = <&vo0_out>;
+ };
+ 
+ &vo0 {
+@@ -25,6 +26,7 @@
+ };
+ 
+ &vo1 {
++  memory-region = <&cma_reserved_1>;
+   status = "disabled";
+   vo1_out: port {
+     vo1_out_dsi: endpoint {
+@@ -38,8 +40,23 @@
+ };
+ 
+ &hdmi {
+-	hdmi5v-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
+-	ext-flags = <0x0>;
++  memory-region = <&cma_reserved_0>;
++  hdmi5v-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
++  ext-flags = <0x0>;
++};
++
++&ve2 {
++  memory-region = <&cma_reserved_1>;
++};
++
++&cma_reserved_0 {
++  size = <0x08000000>; /* 128M */
++  alloc-ranges=<0x20000000 0x08000000>;
++};
++
++&cma_reserved_1 {
++  size = <0x38000000>;                    /* 896M */
++  alloc-ranges=<0x28000000 0x38000000>;
+ };
+ 
+ &dsi {
