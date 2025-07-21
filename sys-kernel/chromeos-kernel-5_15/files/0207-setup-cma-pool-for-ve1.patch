@@ -1,0 +1,13 @@
+--- a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
+@@ -45,6 +45,10 @@
+   ext-flags = <0x0>;
+ };
+ 
++&ve1 {
++  memory-region = <&cma_reserved_1>;
++};
++
+ &ve2 {
+   memory-region = <&cma_reserved_1>;
+ };
