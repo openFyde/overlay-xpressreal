@@ -1,0 +1,14 @@
+--- a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
+@@ -158,3 +158,11 @@
+ &sd {
+   disable-wp;
+ };
++
++&pcie1 {
++  perst-gpios = <&gpio 6 GPIO_ACTIVE_HIGH>;
++};
++
++&pcie2 {
++  perst-gpios = <&gpio 64 GPIO_ACTIVE_HIGH>;
++};
