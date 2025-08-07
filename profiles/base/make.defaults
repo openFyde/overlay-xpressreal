@@ -1,5 +1,5 @@
 USE=""
-USE="${USE} panfrost aic_wifi"
+USE="${USE} panfrost aic_wifi nvme"
 
 CHROMEOS_DTBS="rtd1619b-teethree-4gb.dtb"
 ARC_VERSION_CODENAME=rvc
