@@ -1,0 +1,67 @@
+--- a/Makefile
++++ b/Makefile
+@@ -57,13 +57,13 @@
+ endif
+ 
+ ifeq ($(CONFIG_PLATFORM_UBUNTU), y)
+-KDIR  = /lib/modules/$(shell uname -r)/build
++KDIR  := $(KBUILD_OUTPUT)
+ PWD   = $(shell pwd)
+-KVER = $(shell uname -r)
++KVER := $(shell uname -r)
+ MODDESTDIR = /lib/modules/$(KVER)/kernel/drivers/net/wireless/aic8800
+ SUBARCH = $(shell uname -m | sed -e s/i.86/i386/ -e s/armv.l/arm/ -e s/aarch64/arm64/)
+-ARCH ?= $(SUBARCH)
+-CROSS_COMPILE ?=
++ARCH := arm64
++CROSS_COMPILE := aarch64-cros-linux-gnu-
+ endif
+ ###########################################
+ 
+--- a/Kconfig
++++ b/Kconfig
+@@ -7,8 +7,8 @@
+ config AIC_FW_PATH
+ 	depends on AIC_WLAN_SUPPORT
+ 	string "Firmware & config file path"
+-	default "/vendor/etc/firmware"
+-	#default "/lib/firmware/aic8800_sdio"
++	#default "/vendor/etc/firmware"
++	default "/lib/firmware/aic8800"
+ 	help
+ 	  Path to the firmware & config file.
+ 
+--- a/aic8800_bsp/Makefile
++++ b/aic8800_bsp/Makefile
+@@ -1,7 +1,7 @@
+ CONFIG_SDIO_SUPPORT := y
+ CONFIG_SDIO_PWRCTRL := y
+-CONFIG_AIC_FW_PATH = "/vendor/etc/firmware"
+-#CONFIG_AIC_FW_PATH = "/lib/firmware/aic8800D80"
++#CONFIG_AIC_FW_PATH = "/vendor/etc/firmware"
++CONFIG_AIC_FW_PATH = "/lib/firmware/aic8800"
+ export CONFIG_AIC_FW_PATH
+ ccflags-y += -DCONFIG_AIC_FW_PATH=\"$(CONFIG_AIC_FW_PATH)\"
+ 
+--- a/aic8800_bsp/aic_bsp_main.c
++++ b/aic8800_bsp/aic_bsp_main.c
+@@ -15,7 +15,7 @@
+ #define DRV_AUTHOR            "AICSemi"
+ #define DRV_VERS_MOD          "1.0"
+ 
+-int aicwf_dbg_level_bsp = LOGERROR|LOGINFO|LOGDEBUG|LOGTRACE;
++int aicwf_dbg_level_bsp = LOGERROR;
+ 
+ struct semaphore aicbsp_probe_semaphore;
+ 
+--- a/aic8800_fdrv/rwnx_main.c
++++ b/aic8800_fdrv/rwnx_main.c
+@@ -512,7 +512,7 @@
+ 
+ 
+ extern uint8_t scanning;
+-int aicwf_dbg_level = LOGERROR|LOGINFO|LOGDEBUG|LOGTRACE;
++int aicwf_dbg_level = LOGERROR;
+ module_param(aicwf_dbg_level, int, 0660);
+ int testmode = 0;
+ char aic_fw_path[200];
