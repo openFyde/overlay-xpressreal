@@ -1,0 +1,10 @@
+--- a/cellular/cellular.cc
++++ b/cellular/cellular.cc
+@@ -3343,6 +3343,7 @@
+       PPPDaemon::ParseNetworkConfig(params));
+   ppp_device_->UpdateNetworkConfig(std::move(network_config));
+   SetPrimaryMultiplexedInterface(ppp_device_->GetPrimaryNetwork()->interface_name());
++  SelectService(service_);
+   ResetServiceAttachedNetwork();
+   OnIPConfigsPropertyUpdated(ppp_device_->interface_index());
+ }
