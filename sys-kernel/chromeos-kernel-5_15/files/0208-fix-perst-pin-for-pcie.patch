@@ -10,5 +10,5 @@
 +};
 +
 +&pcie2 {
-+  perst-gpios = <&gpio 64 GPIO_ACTIVE_HIGH>;
++  perst-gpios = <&gpio 65 GPIO_ACTIVE_HIGH>;
 +};
