@@ -1,6 +1,19 @@
 --- a/Makefile
 +++ b/Makefile
-@@ -57,13 +57,13 @@
+@@ -8,6 +8,12 @@
+ 
+ MAKEFLAGS +=-j$(shell nproc)
+ 
++KBUILD_CPPFLAGS := $(filter-out -Qunused-arguments, $(KBUILD_CPPFLAGS))
++KBUILD_CFLAGS := $(filter-out -mno-global-merge, $(KBUILD_CFLAGS))
++KBUILD_CFLAGS += -Wno-unused-but-set-variable
++KBUILD_CFLAGS += -Wno-unused-const-variable
++KBUILD_CFLAGS += -Wno-maybe-uninitialized
++
+ ########## config option ##########
+ export CONFIG_USE_FW_REQUEST = n
+ export CONFIG_PREALLOC_RX_SKB = y
+@@ -57,13 +63,13 @@
  endif
  
  ifeq ($(CONFIG_PLATFORM_UBUNTU), y)
