@@ -1,0 +1,273 @@
+diff --git a/arch/arm64/boot/dts/realtek/Makefile b/arch/arm64/boot/dts/realtek/Makefile
+index ce020d6dd1ef..57a328ba34af 100644
+--- a/arch/arm64/boot/dts/realtek/Makefile
++++ b/arch/arm64/boot/dts/realtek/Makefile
+@@ -30,4 +30,6 @@ dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-rescue-hdmiswap.dtb
+ dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-rescue-nand-hdmiswap.dtb
+ dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-rescue-nand.dtb
+ dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-rescue.dtb
++dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-teethree-2gb.dtb
++dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-teethree-4gb.dtb
+ dtb-$(CONFIG_ARCH_REALTEK) += rtd1619b-tesseract-4gb.dtb
+diff --git a/arch/arm64/boot/dts/realtek/rtd1619b-teethree-2gb.dts b/arch/arm64/boot/dts/realtek/rtd1619b-teethree-2gb.dts
+new file mode 100644
+index 000000000000..fc5515a8b75e
+--- /dev/null
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree-2gb.dts
+@@ -0,0 +1,22 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
++/*
++ * Copyright (c) 2024 FydeOS team
++ */
++
++/dts-v1/;
++
++#include "rtd1619b-teethree.dtsi"
++
++/ {
++  compatible = "realtek,bleeding-edge", "realtek,rtd1619b";
++  model = "Realtek Bleeding Edge XpressReal(2GB)";
++
++  memory@40000 {
++    device_type = "memory";
++    reg = <0x00040000 0x7ffc0000>; /* 2 GB */
++  };
++
++  aliases {
++    ethernet = &nic;
++  };
++};
+diff --git a/arch/arm64/boot/dts/realtek/rtd1619b-teethree-4gb.dts b/arch/arm64/boot/dts/realtek/rtd1619b-teethree-4gb.dts
+new file mode 100644
+index 000000000000..3dc768f9bccf
+--- /dev/null
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree-4gb.dts
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
++/*
++ * Copyright (c) 2024 FydeOS team
++ */
++
++/dts-v1/;
++
++#include "rtd1619b-teethree.dtsi"
++
++/ {
++  compatible = "realtek,bleeding-edge", "realtek,rtd1619b";
++  model = "Realtek Bleeding Edge XpressReal(4GB)";
++
++  memory@40000 {
++    device_type = "memory";
++    reg = <0x00040000 0x7ffc0000>,
++          <0x80020000 0x080e0000>,
++          <0x8a100000 0x0defc000>,
++          <0x98200000 0x00df0000>,
++          <0x99000000 0x07000000>,
++          <0xa0200000 0x5ee00000>;
++  };
++
++  aliases {
++    ethernet = &nic;
++  };
++};
+diff --git a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
+new file mode 100644
+index 000000000000..780221057d75
+--- /dev/null
++++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
+@@ -0,0 +1,195 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
++/*
++ * Copyright (c) 2024 FydeOS team.
++ */
++
++#include "rtd1619b-bleedingedge.dtsi"
++
++/ {
++  firmware {
++    chromeos {
++      compatible = "chromeos-firmware";
++      firmware-type = "nonchrome";
++    };
++  };
++
++  vcc5v0_sys: vcc5v0-sys {
++    compatible = "regulator-fixed";
++    regulator-name = "vcc5v0_sys";
++    regulator-always-on;
++    regulator-boot-on;
++    regulator-min-microvolt = <5000000>;
++    regulator-max-microvolt = <5000000>;
++  };
++
++  gpu_supp: gpu-supply {
++    compatible = "regulator-fixed";
++    regulator-name = "gpu-supply";
++    regulator-min-microvolt = <800000>;
++    regulator-max-microvolt = <800000>;
++  };
++};
++
++&display_subsystem {
++  memory-region = <&cma_reserved_1>;
++  ports = <&vo_out>;
++};
++
++&vo {
++  memory-region = <&cma_reserved_1>;
++  status = "okay";
++};
++
++&voext {
++  memory-region = <&cma_reserved_1>;
++  status = "disabled";
++};
++
++&hdmi {
++  memory-region = <&cma_reserved_0>;
++  hdmi5v-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
++  ext-flags = <0x8>;
++};
++
++&cvbs {
++  status = "disabled";
++};
++
++&dsi {
++  status = "disabled";
++};
++
++&gpu {
++  compatible = "arm,mali-valhall-jm";
++  interrupt-names = "job", "mmu", "gpu";
++  mali-supply = <&gpu_supp>;
++};
++
++&sfc {
++  status = "okay";
++  max-freq = <50000000>;
++  #address-cells = <1>;
++  #size-cells = <0>;
++  pinctrl-names = "default";
++  pinctrl-0 = <&spi_pins_loc_spi>;
++};
++
++&rfkill {
++  rfkill-gpios = <&gpio 57 GPIO_ACTIVE_HIGH>;
++  voltage-config = <1>;
++	status = "okay";
++};
++
++&sdio {
++  pinctrl-names = "default",
++    "sdio-3v3-drv",
++    "sdio-1v8-drv",
++    "sdio-vsel-3v3",
++    "sdio-vsel-1v8";
++  pinctrl-0 = <&sdio_pins_1>;
++  pinctrl-1 = <&sdio_pins_1_3v3_drv>;
++  pinctrl-2 = <&sdio_pins_1_1v8_drv>;
++  pinctrl-3 = <&sdio_pins_1_vsel_3v3>;
++  pinctrl-4 = <&sdio_pins_1_vsel_1v8>;
++  wifi-rst-gpios = <&gpio 61 GPIO_ACTIVE_HIGH>;
++};
++
++&usb_port0 {
++  realtek,power-gpio = <&gpio 48 GPIO_ACTIVE_HIGH>;
++};
++
++&usb_port1 {
++	realtek,power-gpio = <&gpio 48 GPIO_ACTIVE_HIGH>;
++};
++
++&uart1 {
++  cts-gpios = <&gpio 10 GPIO_ACTIVE_LOW>;
++  rts-gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
++  pinctrl-0 = <&uart1_pins_teethree &uart1_cts_rts>;
++  snps,uart-16550-compatible;
++  current-speed = <1500000>;
++  status = "okay";
++};
++
++&pinctrl {
++  aic8800_wifi {
++     bt_enable_h: bt-enable-h {
++       pins = "gpio_57";
++       function = "gpio";
++       bias-disable;
++     };
++  };
++
++  uart1_pins_teethree: uart1-pins-teethree {
++    pins = "gpio_8", "gpio_9";
++    function = "uart1";
++  };
++
++  uart1_cts_rts: uart1-cts-rts {
++    pins = "gpio_10", "gpio_11";
++    function = "gpio";
++    bias-pull-down;
++  };
++};
++
++&sd {
++  disable-wp;
++};
++
++&pcie1 {
++  perst-gpios = <&gpio 6 GPIO_ACTIVE_HIGH>;
++};
++
++&pcie2 {
++  perst-gpios = <&gpio 65 GPIO_ACTIVE_HIGH>;
++};
++
++&avcert_rproc {
++  status = "okay";
++};
++
++&hifi_rproc {
++  status = "okay";
++};
++
++&acpu_rproc {
++  status = "okay";
++};
++
++&vcpu_rproc {
++  status = "okay";
++};
++
++&ve3_rproc {
++  status = "okay";
++};
++
++&sb2 {
++  acpu-rpmsg {
++    rproc = <&acpu_rproc>;
++    status = "okay";
++  };
++
++  vcpu-rpmsg {
++    rproc = <&vcpu_rproc>;
++    status = "okay";
++  };
++
++  hifi-rpmsg {
++    rproc = <&hifi_rproc>;
++    status = "okay";
++  };
++
++  ve3-rpmsg {
++    rproc = <&ve3_rproc>;
++    status = "okay";
++  };
++};
++
++&sound {
++  status = "disabled";
++};
++
++&audio_out {
++  status = "disabled";
++};
