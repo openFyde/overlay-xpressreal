@@ -72,10 +72,10 @@ index 000000000000..3dc768f9bccf
 +};
 diff --git a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 new file mode 100644
-index 000000000000..780221057d75
+index 000000000000..1b69798d604f
 --- /dev/null
 +++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,195 @@
+@@ -0,0 +1,197 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -227,10 +227,11 @@ index 000000000000..780221057d75
 +};
 +
 +&hifi_rproc {
-+  status = "okay";
++  status = "disabled";
 +};
 +
 +&acpu_rproc {
++  firmware-name = "bluecore.audio.enc.A00-stark-audio-nonsecure";
 +  status = "okay";
 +};
 +
@@ -255,7 +256,7 @@ index 000000000000..780221057d75
 +
 +  hifi-rpmsg {
 +    rproc = <&hifi_rproc>;
-+    status = "okay";
++    status = "disabled";
 +  };
 +
 +  ve3-rpmsg {
@@ -265,9 +266,10 @@ index 000000000000..780221057d75
 +};
 +
 +&sound {
-+  status = "disabled";
++  extcon = <&hdmi>;
++  status = "okay";
 +};
 +
 +&audio_out {
-+  status = "disabled";
++  status = "okay";
 +};
