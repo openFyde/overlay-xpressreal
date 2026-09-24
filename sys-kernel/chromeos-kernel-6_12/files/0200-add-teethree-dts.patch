@@ -75,7 +75,7 @@ new file mode 100644
 index 000000000000..6dcf513ae0d4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,199 @@
+@@ -0,0 +1,213 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -232,13 +232,27 @@ index 000000000000..6dcf513ae0d4
 +&reserved_memory {
 +  /delete-node/ vo_s_dsc3;
 +
++  /* Chrome's decoder frames come from DRM GEM (vo_dsc3); the decoder's own
++   * VO_POOL only holds bitstream and scratch buffers. Each pool must stay
++   * inside one 512M window below 1.5G.
++   */
 +  heap_b1p5: heap_b1p5 {
 +    compatible = "shared-dma-pool";
-+    size = <0x1fc00000>;                    /* 508M */
++    size = <0x0c000000>;                    /* 192M */
 +    alignment = <0x00400000>;
-+    alloc-ranges = <0x40400000 0x1fc00000>;
++    alloc-ranges = <0x20000000 0x0c000000>;
 +    reusable;
 +  };
++};
++
++&cma_reserved_1 {
++  size = <0x1fc00000>;                      /* vo_dsc3 508M */
++  alloc-ranges = <0x40400000 0x1fc00000>;
++};
++
++&cma_reserved_4 {
++  size = <0x10000000>;                      /* video_dsc5 256M */
++  alloc-ranges = <0x30000000 0x10000000>;
 +};
 +
 +&ve3_rproc {
