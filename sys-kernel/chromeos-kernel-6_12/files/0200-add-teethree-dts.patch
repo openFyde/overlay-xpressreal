@@ -72,10 +72,10 @@ index 000000000000..3dc768f9bccf
 +};
 diff --git a/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
 new file mode 100644
-index 000000000000..1b69798d604f
+index 000000000000..6dcf513ae0d4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,197 @@
+@@ -0,0 +1,183 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -181,9 +181,6 @@ index 000000000000..1b69798d604f
 +};
 +
 +&uart1 {
-+  cts-gpios = <&gpio 10 GPIO_ACTIVE_LOW>;
-+  rts-gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
-+  pinctrl-0 = <&uart1_pins_teethree &uart1_cts_rts>;
 +  snps,uart-16550-compatible;
 +  current-speed = <1500000>;
 +  status = "okay";
@@ -196,17 +193,6 @@ index 000000000000..1b69798d604f
 +       function = "gpio";
 +       bias-disable;
 +     };
-+  };
-+
-+  uart1_pins_teethree: uart1-pins-teethree {
-+    pins = "gpio_8", "gpio_9";
-+    function = "uart1";
-+  };
-+
-+  uart1_cts_rts: uart1-cts-rts {
-+    pins = "gpio_10", "gpio_11";
-+    function = "gpio";
-+    bias-pull-down;
 +  };
 +};
 +
