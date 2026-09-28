@@ -3,6 +3,6 @@ USE="${USE} panfrost aic_wifi nvme"
 USE="${USE} -kernel-5_15 kernel-6_12"
 
 CHROMEOS_DTBS="rtd1619b-teethree-4gb.dtb"
-ARC_VERSION_CODENAME=rvc
+ARC_VERSION_CODENAME=tm
 UBOOT_DDR_TYPE="lpddr4"
 LINUX_FIRMWARE="$LINUX_FIRMWARE aic8800d80"
