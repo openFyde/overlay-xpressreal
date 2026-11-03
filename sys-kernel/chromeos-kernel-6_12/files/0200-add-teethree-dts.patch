@@ -75,7 +75,7 @@ new file mode 100644
 index 000000000000..6dcf513ae0d4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/realtek/rtd1619b-teethree.dtsi
-@@ -0,0 +1,213 @@
+@@ -0,0 +1,214 @@
 +// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 +/*
 + * Copyright (c) 2024 FydeOS team.
@@ -126,7 +126,8 @@ index 000000000000..6dcf513ae0d4
 +&hdmi {
 +  memory-region = <&cma_reserved_0>;
 +  hdmi5v-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
-+  ext-flags = <0x8>;
++  /* RTK_EXT_DIS_4K: the SDK 2.7.1 ACPU firmware clamps the OSD at 1080p */
++  ext-flags = <0x9>;
 +};
 +
 +&cvbs {
